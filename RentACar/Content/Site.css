@@ -1,0 +1,71 @@
+﻿body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.field-validation-error {
+    color: red;
+}
+
+.input-validation-error {
+    border: 2px solid red;
+}
+
+.btn-default {
+    color: #fff;
+    background-color: #ff7851;
+    border-color: #ff7851;
+}
+
+.btn-default:hover {
+    color: #fff;
+    background-color: #ff5a2b;
+    border-color: #ff501e;
+}
+
+.btn-default:focus, .btn-default.focus {
+    color: #fff;
+    background-color: #ff5a2b;
+    border-color: #ff501e;
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 107, 0.5);
+}
+
+.btn-default.disabled, .btn-default:disabled {
+    color: #fff;
+    background-color: #ff7851;
+    border-color: #ff7851;
+}
+
+.btn-default:not(:disabled):not(.disabled):active, .btn-default:not(:disabled):not(.disabled).active,
+.show > .btn-default.dropdown-toggle {
+    color: #fff;
+    background-color: #ff501e;
+    border-color: #ff4711;
+}
+
+.btn-default:not(:disabled):not(.disabled):active:focus, .btn-default:not(:disabled):not(.disabled).active:focus,
+.show > .btn-default.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 107, 0.5);
+}

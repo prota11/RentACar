@@ -1,0 +1,69 @@
+﻿@model RentACar.ViewModels.VehicleFormViewModel
+@{
+    ViewBag.Title = "VehicleForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle Form</h2>
+
+@using (Html.BeginForm("Save", "Vehicles"))
+{
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Make)
+        @Html.TextBoxFor(v => v.Vehicle.Make, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Make)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Model)
+        @Html.TextBoxFor(v => v.Vehicle.Model, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Model)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Fuel)
+        @Html.TextBoxFor(v => v.Vehicle.Fuel, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Fuel)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Seats)
+        @Html.TextBoxFor(v => v.Vehicle.Seats, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Seats)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Gearbox)
+        @Html.TextBoxFor(v => v.Vehicle.Gearbox, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Gearbox)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.Quantity)
+        @Html.TextBoxFor(v => v.Vehicle.Quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.Quantity)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.VehicleGroupId)
+        @Html.DropDownListFor(v => v.Vehicle.VehicleGroupId, new SelectList(Model.VehicleGroups, "Id", "Name"), "Select Vehicle Group", new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.VehicleGroupId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(v => v.Vehicle.VehicleTypeId)
+        @Html.DropDownListFor(v => v.Vehicle.VehicleTypeId, new SelectList(Model.VehicleTypes, "Id", "Name"), "Select Vehicle Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Vehicle.VehicleTypeId)
+    </div>
+
+    @Html.HiddenFor(v => v.Vehicle.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

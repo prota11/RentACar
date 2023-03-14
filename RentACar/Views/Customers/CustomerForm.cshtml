@@ -1,0 +1,157 @@
+﻿@model RentACar.Models.Customer
+@{
+    ViewBag.Title = "CustomerForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Form</h2>
+
+@*@using (Html.BeginForm("Save", "Customers"))*@
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createCustomerForm" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Email)
+        @Html.TextBoxFor(c => c.Email, new { @class = "form-control", id = "email" })
+        @Html.ValidationMessageFor(c => c.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.FirstName)
+        @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control", id = "firstName" })
+        @Html.ValidationMessageFor(c => c.FirstName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.LastName)
+        @Html.TextBoxFor(c => c.LastName, new { @class = "form-control", id = "lastName" })
+        @Html.ValidationMessageFor(c => c.LastName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.BirthDate)
+        @Html.TextBoxFor(c => c.BirthDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", id = "birthDate" })
+        @Html.ValidationMessageFor(c => c.BirthDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.PhoneNumber)
+        @Html.TextBoxFor(c => c.PhoneNumber, new { @class = "form-control", id = "phoneNumber" })
+        @Html.ValidationMessageFor(c => c.PhoneNumber)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Country)
+        @Html.TextBoxFor(c => c.Country, new { @class = "form-control", id = "country" })
+        @Html.ValidationMessageFor(c => c.Country)
+    </div>
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.AntiForgeryToken()
+
+    @*<button type="submit" class="btn btn-primary">Save</button>*@
+
+    if (Model.Id == 0)
+    {
+        <button type="button" class="btn btn-primary btnsubmit" customer-data-id="@Model.Id" customer-data="@Model">Save</button>
+    }
+
+    // U suprotnom, printujemo Edit dugme koje će pozvati Edit metodu API-ja preko skripte
+    else
+    {
+        <button type="button" class="btn btn-primary btnedit" customer-data-id="@Model.Id" customer-data="@Model">Save</button>
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#createCustomerForm").on("click", ".btnsubmit", function () {
+                var button = $(this);
+
+                var customerEmail = $('#email').val();
+                var customerFirstName = $('#firstName').val();
+                var customerLastName = $('#lastName').val();
+                var customerBirthDate = $('#birthDate').val();
+                var customerPhoneNumber = $('#phoneNumber').val();
+                var customerCountry = $('#country').val();
+
+                var data = {
+                    "email": customerEmail,
+                    "firstName": customerFirstName,
+                    "lastName": customerLastName,
+                    "birthDate": customerBirthDate,
+                    "phoneNumber": customerPhoneNumber,
+                    "country": customerCountry
+                };
+
+                /*Koristimo JSON.stringify da bi se propisno formatirali podaci*/
+                var JSONData = JSON.stringify(data);
+
+                $.ajax({
+                    url: '/api/customers',
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSONData,
+                    //dataType: 'application/json',
+
+                    success: function (data) {
+                        bootbox.alert("Successfully created customer!");
+                    },
+                    error: function (data) {
+                        var msg = jqXHR.responseText + jqXHR.status;
+                        $('#createCustomerForm').html(msg);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#createCustomerForm").on("click", ".btnedit", function () {
+                var button = $(this);
+
+                var customerId = button.attr("customer-data-id");
+                var customerEmail = $('#email').val();
+                var customerFirstName = $('#firstName').val();
+                var customerLastName = $('#lastName').val();
+                var customerBirthDate = $('#birthDate').val();
+                var customerPhoneNumber = $('#phoneNumber').val();
+                var customerCountry = $('#country').val();
+
+                var data = {
+                    "id": customerId,
+                    "email": customerEmail,
+                    "firstName": customerFirstName,
+                    "lastName": customerLastName,
+                    "birthDate": customerBirthDate,
+                    "phoneNumber": customerPhoneNumber,
+                    "country": customerCountry
+                };
+
+                var JSONData = JSON.stringify(data);
+                $.ajax({
+                    url: '/api/customers' + "/" + customerId,
+                    type: "PUT",
+                    // dataType: 'application/json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSONData,
+                    success: function (data) {
+                        bootbox.alert("Successfully edited customer's data!");
+                    },
+                    error: function (jqXHR, exception) {
+                        var msg = jqXHR.responseText + jqXHR.status;
+                        $('#createCustomerForm').html(msg);
+                    },
+                });
+            });
+        });
+    </script>
+}
+
+
+

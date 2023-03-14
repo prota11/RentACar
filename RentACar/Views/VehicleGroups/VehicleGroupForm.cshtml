@@ -1,0 +1,34 @@
+﻿@model RentACar.Models.VehicleGroup
+@{
+    ViewBag.Title = "VehicleGroupForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle Group Form</h2>
+
+@using (Html.BeginForm("Save", "VehicleGroups"))
+{
+    <div class="form-group">
+        @Html.LabelFor(v => v.Name)
+        @Html.TextBoxFor(v => v.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(v => v.Description)
+        @Html.TextBoxFor(v => v.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Description)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(v => v.PricePerDay)
+        @Html.TextBoxFor(v => v.PricePerDay, new { @type = "number", @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.PricePerDay)
+    </div>
+
+    @Html.HiddenFor(v => v.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary" onclick="StringToFloat()">Save</button>}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

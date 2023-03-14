@@ -1,0 +1,92 @@
+﻿@model IPagedList<RentACar.Models.Vehicle>
+
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Our Fleet</h2>
+<p>
+    @Html.ActionLink("New Vehicle", "New", "Vehicles", null, new { @class = "btn btn-primary" })
+</p>
+
+@using (Html.BeginForm("Index", "Vehicles", FormMethod.Get))
+{
+    <b>Search by: </b>
+    @Html.DropDownList("searchBy", new List<SelectListItem>
+    {
+       new SelectListItem{ Text="All", Value = "All" },
+       new SelectListItem{ Text="Make", Value = "Make" },
+       new SelectListItem{ Text="Model", Value = "Model" },
+       new SelectListItem{ Text="Fuel", Value = "Fuel" },
+       new SelectListItem{ Text="Seats", Value = "Seats" },
+       new SelectListItem{ Text="Quantity", Value = "Quantity" },
+       new SelectListItem{ Text="Vehicle Group", Value = "Vehicle Group" },
+       new SelectListItem{ Text="Vehicle Type", Value = "Vehicle Type" },
+    })
+    <b>Search: </b>
+    @Html.TextBox("search")
+
+    <b>Order by: </b>
+    @Html.DropDownList("orderBy", new List<SelectListItem>
+    {
+       new SelectListItem{ Text="Make", Value = "Make" },
+       new SelectListItem{ Text="Model", Value = "Model" },
+       new SelectListItem{ Text="Fuel", Value = "Fuel" },
+       new SelectListItem{ Text="Seats", Value = "Seats" },
+       new SelectListItem{ Text="Quantity", Value = "Quantity" },
+       new SelectListItem{ Text="Vehicle Group", Value = "Vehicle Group" },
+       new SelectListItem{ Text="Vehicle Type", Value = "Vehicle Type" },
+    })
+    <input type="submit" value="Search" class="btn btn-primary" />
+}
+
+
+@if (!Model.Any())
+{
+    <p>No Vehicles yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Fuel</th>
+                <th>Seats</th>
+                <th>Gearbox</th>
+                <th>Quantity</th>
+                <th>Vehicle Type</th>
+                <th>Vehicle Group</th>
+                <th>CRUD</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Make</td>
+                    <td>@item.Model</td>
+                    <td>@item.Fuel</td>
+                    <td>@item.Seats</td>
+                    <td>@item.Gearbox</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.VehicleType.Name</td>
+                    <td>@item.VehicleGroup.Name</td>
+                    <td>@Html.ActionLink("Delete", "Delete", "Vehicles", new { id = item.Id }, null) | @Html.ActionLink("Edit", "Edit", "Vehicles", new { id = item.Id }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], orderBy = Request.QueryString["orderBy"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true, DisplayItemSliceAndTotal = true })*@
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], orderBy = Request.QueryString["orderBy"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true, DisplayItemSliceAndTotal = true })
+</div>

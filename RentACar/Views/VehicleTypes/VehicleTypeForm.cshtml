@@ -1,0 +1,30 @@
+﻿@model RentACar.Models.VehicleType
+@{
+    ViewBag.Title = "VehicleTypeForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle Type Form</h2>
+
+@using (Html.BeginForm("Save", "VehicleTypes"))
+{
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+    <div class="form-group">
+        @Html.LabelFor(v => v.Name)
+        @Html.TextBoxFor(v => v.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(v => v.Description)
+        @Html.TextBoxFor(v => v.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(v => v.Description)
+    </div>
+
+    @Html.HiddenFor(v => v.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

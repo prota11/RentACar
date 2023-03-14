@@ -1,0 +1,55 @@
+﻿@model RentACar.ViewModels.BookingFormViewModel
+@{
+    ViewBag.Title = "BookingForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Booking Form</h2>
+
+@using (Html.BeginForm("Save", "Bookings"))
+{
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.CustomerId)
+        @Html.DropDownListFor(b => b.Booking.CustomerId, new SelectList(Model.Customers, "Id", "Email"), "Select Customer", new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.CustomerId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.VehicleId)
+        @Html.DropDownListFor(b => b.Booking.VehicleId, new SelectList(Model.Vehicles, "Id", "Model"), "Select Vehicle", new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.VehicleId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.PickupLocation)
+        @Html.TextBoxFor(b => b.Booking.PickupLocation, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.PickupLocation)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.ReturnLocation)
+        @Html.TextBoxFor(b => b.Booking.ReturnLocation, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.ReturnLocation)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.PickupDate)
+        @Html.TextBoxFor(b => b.Booking.PickupDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.PickupDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(b => b.Booking.ReturnDate)
+        @Html.TextBoxFor(b => b.Booking.ReturnDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Booking.ReturnDate)
+    </div>
+
+    @Html.HiddenFor(b => b.Booking.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

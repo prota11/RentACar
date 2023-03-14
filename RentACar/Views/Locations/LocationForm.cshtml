@@ -1,0 +1,35 @@
+﻿@model RentACar.Models.Location
+@{
+    ViewBag.Title = "LocationForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Location Form</h2>
+
+@using (Html.BeginForm("Save", "Locations"))
+{
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+    <div class="form-group">
+        @Html.LabelFor(l => l.Place)
+        @Html.TextBoxFor(l => l.Place, new { @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.Place)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.City)
+        @Html.TextBoxFor(l => l.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.City)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.Address)
+        @Html.TextBoxFor(l => l.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(l => l.Address)
+    </div>
+
+    @Html.HiddenFor(l => l.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
